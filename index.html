@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Login Form</h2>
+            <form id="loginForm">
+                <div class="inputbox">
+                    <input type="text" id="username" required>
+                    <span>Username</span>
+                </div>
+                <div class="inputbox">
+                    <input type="email" id="email" required>
+                    <span>E-mail</span>
+                </div>
+                <div class="inputbox">
+                    <input type="text" id="phone" required>
+                    <span>Phone Number</span>
+                </div>
+                <input type="submit" value="Submit" class="sub" id="submit">
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBu15zoSRSeVyu9UM9rNZZpPT6byYUxhqY",
+            authDomain: "kiran-34f95.firebaseapp.com",
+            projectId: "kiran-34f95",
+            storageBucket: "kiran-34f95.appspot.com",
+            messagingSenderId: "346458641132",
+            appId: "1:346458641132:web:2f251fcb42d2816abd0bc9",
+            measurementId: "G-3HZ3RE39G2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+
+        document.getElementById("loginForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+
+            set(ref(db, 'user/' + username), {
+                username: username,
+                email: email,
+                phoneNumber: phone
+            })
+            .then(() => {
+                alert("Login Successful!");
+            })
+            .catch((error) => {
+                alert("Error: " + error.message);
+            });
+        });
+    </script>
+</body>
+</html>
